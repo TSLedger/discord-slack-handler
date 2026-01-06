@@ -1,0 +1,37 @@
+name: Automatic Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  actions: write
+  attestations: write
+  checks: write
+  contents: write
+  discussions: write
+  id-token: write
+
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Languages
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - uses: devcontainers/ci@v0.3
+        with:
+          runCmd: deno task test
+      # Publish
+      - uses: softprops/action-gh-release@v2
+        with:
+          discussion_category_name: Announcements
+          generate_release_notes: true
+          files: |
+            LICENSE
+            README.md
+      - name: 'Publish Package'
+        run: deno publish
