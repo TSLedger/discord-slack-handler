@@ -6,6 +6,7 @@
     "ledger": "jsr:@ledger/ledger@0.3.7",
     "discordjs/core": "npm:@discordjs/core@dev",
     "discordjs/rest": "npm:@discordjs/rest@dev",
+    "discordjs/builders": "npm:@discordjs/builders@dev",
     "next-json": "npm:next-json@0.5.1",
     "@std/datetime": "jsr:@std/datetime@0.225.5",
     "test/async": "jsr:@std/async@1.0.15",

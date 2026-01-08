@@ -12,6 +12,7 @@
     "jsr:@std/internal@^1.0.10": "1.0.12",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/testing@*": "1.0.16",
+    "npm:@discordjs/builders@dev": "2.0.0-dev.1767398517-8ccae833e",
     "npm:@discordjs/core@dev": "3.0.0-dev.1767398517-8ccae833e",
     "npm:@discordjs/rest@dev": "3.0.0-dev.1767398517-8ccae833e",
     "npm:next-json@0.5.1": "0.5.1"
@@ -56,6 +57,16 @@
     }
   },
   "npm": {
+    "@discordjs/builders@2.0.0-dev.1767398517-8ccae833e": {
+      "integrity": "sha512-cNofZcmynZHEkUdOpheNCWzLpu2broX9uAuRh8Oza+zCASa7Ihtn7Sg9Lu0Al3I9fGRgelH6XOgv2jT1jbfdsw==",
+      "dependencies": [
+        "@discordjs/util",
+        "discord-api-types",
+        "ts-mixer",
+        "tslib",
+        "zod"
+      ]
+    },
     "@discordjs/collection@3.0.0-dev.1767398517-8ccae833e": {
       "integrity": "sha512-16ky0fNzMm6Hea0FTm7uBRecWU+MhIDoND7BE3IG0qB1eDUi3G1LD/HK+NZMiEQXesjodAPCFFnZNC1fo/O8kg=="
     },
@@ -134,6 +145,9 @@
     "next-json@0.5.1": {
       "integrity": "sha512-HOVDDYP+gN7gtbRUrtj6C/cy12M1VG59deVRaO/Iyuw6oD5F9Y/M0jHxjV813HizOjJurV2uCPZaMVmzMszJHA=="
     },
+    "ts-mixer@6.0.4": {
+      "integrity": "sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA=="
+    },
     "tslib@2.8.1": {
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
     },
@@ -149,6 +163,9 @@
     },
     "ws@8.19.0": {
       "integrity": "sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg=="
+    },
+    "zod@4.3.5": {
+      "integrity": "sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g=="
     }
   },
   "workspace": {
@@ -157,6 +174,7 @@
       "jsr:@std/async@1.0.15",
       "jsr:@std/datetime@0.225.5",
       "jsr:@std/expect@1.0.17",
+      "npm:@discordjs/builders@dev",
       "npm:@discordjs/core@dev",
       "npm:@discordjs/rest@dev",
       "npm:next-json@0.5.1"

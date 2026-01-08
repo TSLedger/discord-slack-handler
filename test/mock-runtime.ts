@@ -4,15 +4,15 @@ import type { DiscordWebhookOptions } from '../lib/option.ts';
 
 const ledger = new Ledger({
   service: 'Test IPC Service',
-  troubleshooting: false,
-  troubleshootingIPC: false,
+  troubleshooting: true,
+  troubleshootingIPC: true,
   useAsyncDispatchQueue: true,
 });
 ledger.register<DiscordWebhookOptions>({
   definition: new URL('../mod.ts', import.meta.url).href,
   level: Level.TRACE,
-  id: '',
-  token: '',
+  id: '1359184708084170802',
+  token: 'VvulnGzOSWR-3hl2LLXkeQxnjrsHhlqnFcogMbKq3mKYW1VuROhp7cWFNZ846XIJw6J3-',
 });
 await ledger.alive();
 
@@ -31,10 +31,17 @@ const object = {
   date: new Date('2025'),
 };
 
-ledger.trace('Validating API... (Trace)', object);
-// ledger.information('Validating API... (Information)', object);
-// ledger.warning('Validating API... (Warning)', object);
-// ledger.severe('Validating API... (Severe)', object);
+ledger.trace('Validating API... (Trace)');
+await new Promise((resolve) => setTimeout(resolve, 1000));
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
+
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
+ledger.information('Validating API... (Information)');
 await new Promise((resolve) => setTimeout(resolve, 1000));
 
 ledger.terminate();
