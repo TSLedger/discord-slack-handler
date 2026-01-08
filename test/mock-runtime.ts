@@ -1,18 +1,21 @@
 import { Ledger } from 'ledger';
 import { Level } from 'ledger/struct';
-import type { DiscordWebhookOptions } from '../lib/option.ts';
+import type { DualDiscordSlackWebhookOptions } from '../lib/option.ts';
 
 const ledger = new Ledger({
   service: 'Test IPC Service',
   troubleshooting: true,
-  troubleshootingIPC: true,
-  useAsyncDispatchQueue: true,
+  troubleshootingIPC: false,
+  useAsyncDispatchQueue: false,
 });
-ledger.register<DiscordWebhookOptions>({
+ledger.register<DualDiscordSlackWebhookOptions>({
   definition: new URL('../mod.ts', import.meta.url).href,
   level: Level.TRACE,
-  id: '1359184708084170802',
-  token: 'VvulnGzOSWR-3hl2LLXkeQxnjrsHhlqnFcogMbKq3mKYW1VuROhp7cWFNZ846XIJw6J3-',
+  platform: 'both',
+  id: Deno.env.get('DISCORD_WEBHOOK_ID')!,
+  token: Deno.env.get('DISCORD_WEBHOOK_TOKEN')!,
+  url: Deno.env.get('SLACK_WEBHOOK_URL')!,
+  message: Deno.env.get('DISCORD_WEBHOOK_MESSAGE')!,
 });
 await ledger.alive();
 
@@ -33,13 +36,6 @@ const object = {
 
 ledger.trace('Validating API... (Trace)');
 await new Promise((resolve) => setTimeout(resolve, 1000));
-ledger.information('Validating API... (Information)');
-ledger.information('Validating API... (Information)');
-ledger.information('Validating API... (Information)');
-ledger.information('Validating API... (Information)');
-
-ledger.information('Validating API... (Information)');
-ledger.information('Validating API... (Information)');
 ledger.information('Validating API... (Information)');
 ledger.information('Validating API... (Information)');
 await new Promise((resolve) => setTimeout(resolve, 1000));
