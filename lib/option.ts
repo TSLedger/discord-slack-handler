@@ -2,13 +2,13 @@ export interface DiscordWebhookOptions {
   platform: 'discord';
   id: string;
   token: string;
-  message: string;
+  discordAccentMessage: string;
 }
 
 export interface SlackWebhookOptions {
   platform: 'slack';
   url: string;
-  message: string;
+  slackAccentMessage: string;
 }
 
 export interface DualDiscordSlackWebhookOptions {
@@ -16,5 +16,6 @@ export interface DualDiscordSlackWebhookOptions {
   id: string;
   token: string;
   url: string;
-  message: string;
+  discordAccentMessage: string;
+  slackAccentMessage: string;
 }

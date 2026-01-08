@@ -1,3 +1,4 @@
+import { IncomingWebhook } from '@slack/webhook';
 import { ContainerBuilder } from 'discordjs/builders';
 import { type CreateWebhookMessageOptions, MessageFlags, SeparatorSpacingSize, WebhooksAPI } from 'discordjs/core';
 import { REST } from 'discordjs/rest';
@@ -8,14 +9,19 @@ import type { DiscordWebhookOptions, DualDiscordSlackWebhookOptions, SlackWebhoo
 /** Handler Exported Class. */
 export class Handler implements WorkerHandler {
   private readonly options: (DiscordWebhookOptions | SlackWebhookOptions | DualDiscordSlackWebhookOptions) & ServiceHandlerOption;
-  private readonly rest: REST;
-  private readonly webhooks: WebhooksAPI;
+  private readonly discordWebhook: WebhooksAPI | null = null;
+  private readonly slackWebhook: IncomingWebhook | null = null;
   private lockedOut = false;
 
   public constructor(options: ServiceHandlerOption) {
     this.options = options as (DiscordWebhookOptions | SlackWebhookOptions | DualDiscordSlackWebhookOptions) & ServiceHandlerOption;
-    this.rest = new REST({ version: '10' });
-    this.webhooks = new WebhooksAPI(this.rest);
+    if (this.options.platform === 'discord' || this.options.platform === 'both') {
+      const rest = new REST({ version: '10' });
+      this.discordWebhook = new WebhooksAPI(rest);
+    }
+    if (this.options.platform === 'slack' || this.options.platform === 'both') {
+      this.slackWebhook = new IncomingWebhook(this.options.url);
+    }
   }
 
   // deno-lint-ignore require-await
@@ -48,9 +54,9 @@ export class Handler implements WorkerHandler {
 
     if (this.options.platform === 'discord' || this.options.platform === 'both') {
       let builder = new ContainerBuilder();
-      if (this.options.message !== undefined && this.options.message !== '') {
+      if (this.options.discordAccentMessage !== undefined && this.options.discordAccentMessage !== '') {
         builder = builder.addTextDisplayComponents(
-          (tb) => tb.setContent(`${this.options.message}`),
+          (tb) => tb.setContent(`${(this.options as DiscordWebhookOptions | DualDiscordSlackWebhookOptions).discordAccentMessage}`),
         )
           .addSeparatorComponents((s) => s.setSpacing(SeparatorSpacingSize.Small));
       }
@@ -88,8 +94,7 @@ export class Handler implements WorkerHandler {
       };
 
       // Call Webhook
-      // https://discord.com/api/webhooks/1359184708084170802/VvulnGzOSWR-3hl2LLXkeQxnjrsHhlqnFcogMbKq3mKYW1VuROhp7cWFNZ846XIJw6J3
-      this.webhooks.execute(this.options.id, this.options.token, create).catch((e) => {
+      this.discordWebhook!.execute(this.options.id, this.options.token, create).catch((e) => {
         if (e.message === 'Invalid Webhook Token' && (this.options.platform === 'discord' || this.options.platform === 'both')) {
           self.postMessage({
             operation: Operation.LEDGER_ERROR,
@@ -109,6 +114,9 @@ export class Handler implements WorkerHandler {
           } as LedgerErrorMessageContext);
         }
       });
+    }
+
+    if (this.options.platform === 'slack' || this.options.platform === 'both') {
     }
   }
 }

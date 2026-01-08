@@ -15,7 +15,7 @@ ledger.register<DualDiscordSlackWebhookOptions>({
   id: Deno.env.get('DISCORD_WEBHOOK_ID')!,
   token: Deno.env.get('DISCORD_WEBHOOK_TOKEN')!,
   url: Deno.env.get('SLACK_WEBHOOK_URL')!,
-  message: Deno.env.get('DISCORD_WEBHOOK_MESSAGE')!,
+  discordAccentMessage: Deno.env.get('DISCORD_WEBHOOK_MESSAGE')!,
 });
 await ledger.alive();
 
