@@ -1,7 +1,7 @@
 import { ContainerBuilder } from 'discordjs/builders';
-import { CreateWebhookMessageOptions, MessageFlags, SeparatorSpacingSize, WebhooksAPI } from 'discordjs/core';
+import { type CreateWebhookMessageOptions, MessageFlags, SeparatorSpacingSize, WebhooksAPI } from 'discordjs/core';
 import { REST } from 'discordjs/rest';
-import { type DispatchMessageContext, LedgerErrorMessageContext, Level, Operation, type ServiceHandlerOption, type WorkerHandler } from 'ledger/struct';
+import { type DispatchMessageContext, type LedgerErrorMessageContext, Level, Operation, type ServiceHandlerOption, type WorkerHandler } from 'ledger/struct';
 import { NJSON } from 'next-json';
 import type { DiscordWebhookOptions, DualDiscordSlackWebhookOptions, SlackWebhookOptions } from './lib/option.ts';
 
@@ -78,6 +78,7 @@ export class Handler implements WorkerHandler {
         .addTextDisplayComponents((tb) => tb.setContent(`<t:${Math.floor(context.date.getTime() / 1000)}:F>`));
 
       const create: CreateWebhookMessageOptions & { wait: true } = {
+        // deno-lint-ignore camelcase
         with_components: true,
         flags: MessageFlags.IsComponentsV2,
         components: [
