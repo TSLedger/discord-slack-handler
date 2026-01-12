@@ -15,7 +15,8 @@ ledger.register<DualDiscordSlackWebhookOptions>({
   id: Deno.env.get('DISCORD_WEBHOOK_ID')!,
   token: Deno.env.get('DISCORD_WEBHOOK_TOKEN')!,
   url: Deno.env.get('SLACK_WEBHOOK_URL')!,
-  discordAccentMessage: Deno.env.get('DISCORD_WEBHOOK_MESSAGE')!,
+  discordAccentMessage: Deno.env.get('DISCORD_ACCENT_MESSAGE')!,
+  slackAccentMessage: Deno.env.get('SLACK_ACCENT_MESSAGE')!,
 });
 await ledger.alive();
 
@@ -36,7 +37,6 @@ const object = {
 
 ledger.trace('Validating API... (Trace)');
 await new Promise((resolve) => setTimeout(resolve, 1000));
-ledger.information('Validating API... (Information)');
 ledger.information('Validating API... (Information)');
 await new Promise((resolve) => setTimeout(resolve, 1000));
 

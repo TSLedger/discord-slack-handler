@@ -117,6 +117,47 @@ export class Handler implements WorkerHandler {
     }
 
     if (this.options.platform === 'slack' || this.options.platform === 'both') {
+      const blocks = [];
+      if (this.options.slackAccentMessage !== undefined && this.options.slackAccentMessage !== '') {
+        blocks.push(
+          {
+            'type': 'section',
+            'text': {
+              'type': 'mrkdwn',
+              'text': `${this.options.slackAccentMessage}`,
+            },
+          },
+        );
+      }
+
+      this.slackWebhook!.send({
+        'blocks': [
+          ...blocks,
+          {
+            'type': 'divider',
+          },
+          {
+            'type': 'section',
+            'text': {
+              'type': 'mrkdwn',
+              'text': `\`${variables.service}\` [*${variables.level}*]`,
+            },
+          },
+          {
+            'type': 'divider',
+          },
+          {
+            'type': 'section',
+            'text': {
+              'type': 'mrkdwn',
+              'text': `> ${variables.message}`,
+            },
+          },
+          {
+            'type': 'divider',
+          },
+        ],
+      });
     }
   }
 }
