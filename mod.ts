@@ -94,26 +94,32 @@ export class Handler implements WorkerHandler {
       };
 
       // Call Webhook
-      this.discordWebhook!.execute(this.options.id, this.options.token, create).catch((e) => {
-        if (e.message === 'Invalid Webhook Token' && (this.options.platform === 'discord' || this.options.platform === 'both')) {
-          self.postMessage({
-            operation: Operation.LEDGER_ERROR,
-            context: {
-              message: `Unable to dispatch log event to Discord Webhook (\`${this.options.id}\`) due to Invalid Webhook Token. This service has been locked out to prevent a Discord ban.`,
-              stack: e.stack,
-            },
-          } as LedgerErrorMessageContext);
-          this.lockedOut = true;
-        } else {
-          self.postMessage({
-            operation: Operation.LEDGER_ERROR,
-            context: {
-              message: 'Unable to dispatch log event to Discord Webhook due to an unexpected error.',
-              stack: e.stack,
-            },
-          } as LedgerErrorMessageContext);
-        }
-      });
+      this.discordWebhook!.execute(this.options.id, this.options.token, create)
+        .then((request) => {
+          if (this.options.troubleshooting) {
+            console.info(`[Ledger/discord-slack-handler] Discord Request (${request.webhook_id})`);
+          }
+        })
+        .catch((e: Error) => {
+          if (e.message === 'Invalid Webhook Token' && (this.options.platform === 'discord' || this.options.platform === 'both')) {
+            self.postMessage({
+              operation: Operation.LEDGER_ERROR,
+              context: {
+                message: `Unable to dispatch log event to Discord Webhook (\`${this.options.id}\`) due to Invalid Webhook Token. This service has been locked out to prevent a Discord ban.`,
+                stack: e.stack,
+              },
+            } as LedgerErrorMessageContext);
+            this.lockedOut = true;
+          } else {
+            self.postMessage({
+              operation: Operation.LEDGER_ERROR,
+              context: {
+                message: 'Unable to dispatch log event to Discord Webhook due to an unexpected error.',
+                stack: e.stack,
+              },
+            } as LedgerErrorMessageContext);
+          }
+        });
     }
 
     if (this.options.platform === 'slack' || this.options.platform === 'both') {
@@ -157,7 +163,31 @@ export class Handler implements WorkerHandler {
             'type': 'divider',
           },
         ],
-      });
+      }).then((request) => {
+        if (this.options.troubleshooting) {
+          console.info(`[Ledger/discord-slack-handler] Slack Request (${request.text})`);
+        }
+      })
+        .catch((e: Error) => {
+          if (e.message.includes('statusCode = 403') && (this.options.platform === 'slack' || this.options.platform === 'both')) {
+            self.postMessage({
+              operation: Operation.LEDGER_ERROR,
+              context: {
+                message: `Unable to dispatch log event to Slack Webhook due to Invalid Webhook URL. This service has been locked out to prevent a Slack ban.`,
+                stack: e.stack,
+              },
+            } as LedgerErrorMessageContext);
+            this.lockedOut = true;
+          } else {
+            self.postMessage({
+              operation: Operation.LEDGER_ERROR,
+              context: {
+                message: 'Unable to dispatch log event to Slack Webhook due to an unexpected error.',
+                stack: e.stack,
+              },
+            } as LedgerErrorMessageContext);
+          }
+        });
     }
   }
 }

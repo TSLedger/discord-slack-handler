@@ -1,6 +1,6 @@
 {
-  "name": "@ledger/console-handler",
-  "version": "0.2.1",
+  "name": "@ledger/discord-slack-handler",
+  "version": "0.1.0",
   "exports": "./mod.ts",
   "imports": {
     "ledger": "jsr:@ledger/ledger@0.3.7",
@@ -15,7 +15,7 @@
   },
   "tasks": {
     "setup": "./dev/setup.sh",
-    "test": "deno check && deno lint && deno fmt --check --ignore=.github && deno test -A"
+    "test": "deno check && deno lint && deno fmt --check --ignore=.github && deno test --env=./.env -A"
   },
   // Compiler Options
   "compilerOptions": {
