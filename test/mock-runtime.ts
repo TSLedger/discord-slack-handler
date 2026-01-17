@@ -8,6 +8,9 @@ const ledger = new Ledger({
   troubleshootingIPC: false,
   useAsyncDispatchQueue: true,
 });
+// deno-lint-ignore no-console
+console.info(Deno.env.get('DISCORD_WEBHOOK_ID')!);
+
 ledger.register<DualDiscordSlackWebhookOptions>({
   definition: new URL('../mod.ts', import.meta.url).href,
   level: Level.TRACE,
