@@ -20,10 +20,9 @@ ledger.register<DualDiscordSlackWebhookOptions>({
 });
 await ledger.alive();
 
-await new Promise((resolve) => setTimeout(resolve, 5000));
 ledger.trace('[CI] Test Suite Trace of discord-slack-handler');
 ledger.information('[CI] Test Suite Information of discord-slack-handler');
-await new Promise((resolve) => setTimeout(resolve, 1000));
+await new Promise((resolve) => setTimeout(resolve, 5000));
 
 ledger.terminate();
 setTimeout(() => {
