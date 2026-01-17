@@ -98,7 +98,7 @@ export class Handler implements WorkerHandler {
         .then((request) => {
           if (this.options.troubleshooting) {
             // deno-lint-ignore no-console
-            console.info(`[Ledger/discord-slack-handler] Discord Request (${request.webhook_id})`);
+            console.debug(`[Ledger/discord-slack-handler] Discord Request (${request.webhook_id})`);
           }
         })
         .catch((e: Error) => {
@@ -167,7 +167,7 @@ export class Handler implements WorkerHandler {
       }).then((request) => {
         if (this.options.troubleshooting) {
           // deno-lint-ignore no-console
-          console.info(`[Ledger/discord-slack-handler] Slack Request (${request.text})`);
+          console.debug(`[Ledger/discord-slack-handler] Slack Request (${request.text})`);
         }
       })
         .catch((e: Error) => {
