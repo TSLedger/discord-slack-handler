@@ -41,7 +41,7 @@ export class Handler implements WorkerHandler {
 
     // Detect context.q type for stringification.
     if (context.q instanceof Error || typeof context.q !== 'string') {
-      context.q = NJSON.stringify(context.q);
+      context.q = NJSON.stringify(context.q?.message);
     }
 
     // Variables
