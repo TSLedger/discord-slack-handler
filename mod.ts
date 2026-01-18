@@ -92,6 +92,7 @@ export class Handler implements WorkerHandler {
         ],
         wait: true,
       };
+      if (this.options.threadId !== undefined) create['thread_id'] = this.options.threadId;
 
       // Call Webhook
       this.discordWebhook!.execute(this.options.id, this.options.token, create)
