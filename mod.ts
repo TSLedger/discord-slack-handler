@@ -193,3 +193,5 @@ export class Handler implements WorkerHandler {
     }
   }
 }
+
+export type { DiscordWebhookOptions, DualDiscordSlackWebhookOptions, SlackWebhookOptions };
