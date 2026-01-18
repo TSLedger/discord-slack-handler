@@ -25,6 +25,12 @@ jobs:
       - uses: devcontainers/ci@v0.3
         with:
           runCmd: deno task test
+          env: |
+            DISCORD_WEBHOOK_ID=${{ vars.DISCORD_WEBHOOK_ID }}
+            DISCORD_WEBHOOK_TOKEN=${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+            SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}
+            DISCORD_ACCENT_MESSAGE=${{ vars.DISCORD_ACCENT_MESSAGE }}
+            SLACK_ACCENT_MESSAGE=${{ vars.SLACK_ACCENT_MESSAGE }}
       # Publish
       - uses: softprops/action-gh-release@v2
         with:
