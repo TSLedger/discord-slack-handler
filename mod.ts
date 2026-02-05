@@ -3,7 +3,6 @@ import { ContainerBuilder } from 'discordjs/builders';
 import { type CreateWebhookMessageOptions, MessageFlags, SeparatorSpacingSize, WebhooksAPI } from 'discordjs/core';
 import { REST } from 'discordjs/rest';
 import { type DispatchMessageContext, type LedgerErrorMessageContext, Level, Operation, type ServiceHandlerOption, type WorkerHandler } from 'ledger/struct';
-import { NJSON } from 'next-json';
 import type { DiscordWebhookOptions, DualDiscordSlackWebhookOptions, SlackWebhookOptions } from './lib/option.ts';
 
 /** Handler Exported Class. */
@@ -41,7 +40,7 @@ export class Handler implements WorkerHandler {
 
     // Detect context.q type for stringification.
     if (context.q instanceof Error || typeof context.q !== 'string') {
-      context.q = NJSON.stringify(context.q?.message);
+      context.q = Deno.inspect(context.q, { depth: 10, colors: true, compact: false, trailingComma: true, breakLength: 50 });
     }
 
     // Variables
@@ -49,7 +48,7 @@ export class Handler implements WorkerHandler {
       level,
       service: this.options.service,
       message: context.q,
-      args: Deno.inspect(context.args, { depth: 1 }) ?? [],
+      args: Deno.inspect(context.args, { depth: 10, colors: true, compact: false, trailingComma: true, breakLength: 50 }) ?? [],
     };
 
     if (this.options.platform === 'discord' || this.options.platform === 'both') {
